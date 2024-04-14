@@ -339,27 +339,5 @@ def is_valid_email(email):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(email_regex, email) is not None
 
-def lambda_handler(event, context):
-    try:
-        requested_route = event['headers']['X-My-Route']  # Replace with your custom logic
-    except KeyError:
-        # Handle cases where the route information is missing
-        return {
-            'statusCode': 400,
-            'body': 'Missing route information in request.'
-        }
-
-    # Use app.view_functions to call the appropriate route function
-    if requested_route in app.view_functions:
-        response = app.view_functions[requested_route]()
-    else:
-        # Handle invalid or non-existent routes
-        return {
-            'statusCode': 404,
-            'body': 'Not found.'
-        }
-
-    return response
-
 if __name__ == '__main__':
     app.run(debug=True)
